@@ -1,5 +1,9 @@
 import express ,{NextFunction, Request , Response}from "express";
+
+
 import userRoutes from "./route/user.routes";
+import userRoutes from "./route/auth.routes";
+
 
 const app =express();
 
@@ -20,6 +24,8 @@ app.use('/',(req:Request , res:Response) =>{
 
 // ? using route
 app.use("/api/v1/user",userRoutes);
+app.use("/api/v1/user",authRoutes);
+
 
 // ?error handler
 
