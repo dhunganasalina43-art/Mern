@@ -2,7 +2,8 @@ import express ,{NextFunction, Request , Response}from "express";
 
 
 import userRoutes from "./route/user.routes";
-import userRoutes from "./route/auth.routes";
+import authRoutes from "./route/auth.routes";
+import { errorHandler } from "./controllers/middleware/errorHandler.middleware";
 
 
 const app =express();
@@ -14,7 +15,7 @@ app.use(express.json({limit:"10mb"}));
 
 
 //! helth route
-app.use('/',(req:Request , res:Response) =>{
+app.get('/',(req:Request , res:Response) =>{
 	res.status(200).json({
 		message: "Server is up and running ",
 		success:true,
@@ -24,9 +25,11 @@ app.use('/',(req:Request , res:Response) =>{
 
 // ? using route
 app.use("/api/v1/user",userRoutes);
-app.use("/api/v1/user",authRoutes);
+app.use("/api/v1/auth",authRoutes);
+
+
 
 
 // ?error handler
-
+app.use(errorHandler);
 export default app;

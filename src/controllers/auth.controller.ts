@@ -1,47 +1,125 @@
-// ! register
-import express ,{NextFunction, Request , Response}from "express";
-export const register = async( req:Request,res:Response, next:NextFunction,
-)  => 
-	try{
-		const {full_name,email,password,phone} = req.body;
-		if (! full_name)
-			{
-const error: any = new Error("full_name is required");
-error.statusCode= 404;
-error.status = "fail";
-throw error;
-}
-if (! email){
-	const error: any = new Error("email is required");
-error.statusCode= 404;
-error.status = "fail";
-throw error;
-}
-if(!password){
-	const error: any = new Error("password is required");
-error.statusCode= 404;
-error.status = "fail";
-throw error;
-}
-const user = new user ({ full_name,email,password,phone});
+import { NextFunction, Request, Response } from "express";
+import User from "../models/user.model";
 
-await user.save();
+//! register
+export const register = async (
+  req: Request,
+  res: Response,
+  next: NextFunction,
+) => {
+  try {
+    const { full_name, email, password, phone } = req.body;
+    if (!full_name) {
+      const error: any = new Error("full_name is required");
+      error.statusCode = 400;
+      error.status = "fail";
+      throw error;
+    }
+    if (!email) {
+      const error: any = new Error("email is required");
+      error.statusCode = 400;
+      error.status = "fail";
+      throw error;
+    }
+    if (!password) {
+      const error: any = new Error("password is required");
+      error.statusCode = 400;
+      error.status = "fail";
+      throw error;
+    }
 
-res.status(200).json({
-			message:"Account created",
-			success: true,
-			data:user,
-			status:"success",
-	})
-	}catch (error:any) {
-		next ({
-			message:error?.message || "Something went wrong",
-			status:"error",
-			success: false,
-			data:null,
-			statusCode:error?.statusCode ||500,
-		});
-	};
-// !login
+    //* create User instance
+    const user = new User({ full_name, email, password, phone });
 
-// ! change password
+    //! hanlde profile image
+
+    //* save user
+    await user.save();
+
+    //* success response
+    res.status(201).json({
+      message: "Account created",
+      data: user,
+      success: true,
+      status: "success",
+    });
+  } catch (error: any) {
+    next({
+      message: error?.message || "Something went wrong",
+      status: error?.status || "error",
+      success: false,
+      data: null,
+      statusCode: error?.statusCode || 500,
+    });
+  }
+};
+
+//! login
+export const login = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const { email, password } = req.body;
+    if (!email) {
+      const error: any = new Error("email is required");
+      error.statusCode = 400;
+      error.status = "fail";
+      throw error;
+    }
+    if (!password) {
+      const error: any = new Error("password is required");
+      error.statusCode = 400;
+      error.status = "fail";
+      throw error;
+    }
+const user = await User.findOne({ email: email});
+    if (!user) {
+      const error: any = new Error("email or password does not matched");
+      error.statusCode = 400;
+      error.status = "fail";
+      throw error;
+    }
+
+    const isPasswordMatched = password ===user.password;
+    if(!isPasswordMatched) {
+      const error: any = new Error("email or password does not matched");
+      error.statusCode = 400;
+      error.status = "fail";
+      throw error;
+    }
+
+    res.status(201).json({
+      message:"Login suucess",
+      data: user,
+      status:"success",
+      success: true
+    })
+    // success respones
+    res.status(201).json({
+      message: "Login success",
+      data: user,
+      status: "success",
+      success: true
+    });
+    
+
+    }catch (error:any){
+      next({
+      message: error?.message || "Something went wrong",
+      status: error?.status || "error",
+      success: false,
+      data: null,
+      statusCode: error?.statusCode || 500,
+    });
+    }
+
+  };
+
+
+//! update profile
+
+//! get profile
+
+//! change password

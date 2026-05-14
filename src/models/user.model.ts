@@ -24,6 +24,11 @@ const userSchema = new mongoose.Schema(
 		},
 
 		//! role
+		role:{
+			type:String,
+			enum:["ADMIN","USER","SUPER_ADMIN"],
+			default:"USER",
+		},
 		// ! profile_image
 	},
 	{timestamps:true},
