@@ -1,6 +1,4 @@
-// product.controller.ts
-
-import { Request, Response, NextFunction } from "express";
+import{ Request, Response, NextFunction } from "express";
 import Product from "../models/product.model" ;
 
 //* get all products
