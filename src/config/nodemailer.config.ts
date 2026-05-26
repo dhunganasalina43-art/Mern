@@ -2,7 +2,7 @@ import nodemailer from "nodemailer";
 import ENV_CONFIG from "./env.config";
 
 // ! transporter
-const transporter = nodemailer.createdTransport({
+const transporter = nodemailer.createTransport({
 	host: ENV_CONFIG.smtp_host,
 	service:ENV_CONFIG.smtp_service,
 	port:Number(ENV_CONFIG.smtp_port)?? 587,
