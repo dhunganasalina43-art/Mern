@@ -1,64 +1,73 @@
-import express ,{NextFunction, Request , Response}from "express";
+import { NextFunction, Request, Response } from "express";
 import User from "../models/user.model";
-
 // crud user
+
 //! get all users
 export const getAll = async (
-	req:Request,
-	res:Response,
-	next:NextFunction,
-) => { 
-	try{
-		const filter = {};
-		const users = await User.find(filter);
+  req: Request,
+  res: Response,
+  next: NextFunction,
+) => {
+  try {
+    const filter = {};
+    //* get all users query
+    const users = await User.find(filter);
 
-		res.status(200).json({
-			message:"All users fetched",
-			success: true,
-			data:"null",
-			status:"success",
-
-		});
-	}
-	catch (error:any) {
-		next ({
-			message:error?.message || "Something went wrong",
-			status:"error",
-			success: false,
-			data:null,
-			statusCode:error?.statusCode ||500,
-		});
-	}
+    //* success response
+    res.status(200).json({
+      message: "All users fetched",
+      data: users,
+      success: true,
+      status: "succcess",
+    });
+  } catch (error: any) {
+    next({
+      message: error?.message || "Something went wrong",
+      status: "error",
+      success: false,
+      data: null,
+      statusCode: error?.statusCode || 500,
+    });
+  }
 };
 
+//! get by id
 export const getById = async (
-	req:Request,
-	res:Response,
-	next:NextFunction,
-) => { 
-	try{
-		const {id} = req.params;
-	
-		const user = await User.findOne({_id: id});
+  req: Request,
+  res: Response,
+  next: NextFunction,
+) => {
+  try {
+    //* user id
+    const { id } = req.params;
 
-		if (!user){
-const error: any = new Error("User not found");
-error.statusCode= 404;
-throw error;
-		}	
-		res.status(200).json({
-			message:"User $(id) fetched",
-			success: true,
-			data:user,
-			status:"success",
-	})
-} catch (error:any) {
-		next ({
-			message:error?.message || "Something went wrong",
-			status:error?.status ||"error",
-			success: false,
-			data:null,
-			statusCode:error?.statusCode ||500,
-		});
-	}
+    //* db query
+    const user = await User.findOne({ _id: id });
+
+    //* user not found error
+    if (!user) {
+      const error: any = new Error("User not found ");
+      error.statusCode = 404;
+      error.status = "fail";
+      throw error;
+    }
+
+    //* success response
+    res.status(200).json({
+      message: `User ${id} fetched`,
+      data: user,
+      success: true,
+      status: "success",
+    });
+  } catch (error: any) {
+    next({
+      message: error?.message || "Something went wrong",
+      status: error?.status || "error",
+      success: false,
+      data: null,
+      statusCode: error?.statusCode || 500,
+    });
+  }
 };
+
+//! delete user
