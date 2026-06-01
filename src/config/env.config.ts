@@ -19,7 +19,7 @@ smtp_host: process.env.SMTP_HOST!!,
 smtp_service:process.env.SMTP_SERVICE!!,
 smtp_port:process.env.SMTP_PORT!!,
 smtp_user:process.env.SMTP_USER!!,
-stmp_pass:process.env.SMTP_PASS!!,
+smtp_pass:process.env.SMTP_PASS!!,
 
   //  !cookie
   cookie_exp: process.env.COOKIE_EXPIRY!!,

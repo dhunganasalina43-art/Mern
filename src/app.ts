@@ -1,5 +1,7 @@
 import express, { NextFunction, Request, Response } from "express";
 import { errorHandler } from "./middlewares/errorHandler.middleware";
+import cookieParser from "cookie-parser";
+
 
 //! importing routes
 import routes from "./routes";
@@ -9,9 +11,12 @@ import AppError from "./utils/appError.utils";
 const app = express();
 
 //! using middlewares
+//* cooie parser
+app.use(cookieParser());
 //! body parser
 app.use(express.json({ limit: "10mb" }));
-import cookieParser from "cookie-parser";
+app.use(express.urlencoded());
+
 //! helth route
 app.get("/", (req: Request, res: Response) => {
   res.status(200).json({

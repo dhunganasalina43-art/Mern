@@ -2,6 +2,7 @@ import nodemailer from "nodemailer";
 import ENV_CONFIG from "./env.config";
 
 // ! transporter
+console.log(ENV_CONFIG.smtp_user,ENV_CONFIG.smtp_pass);
 const transporter = nodemailer.createTransport({
 	host: ENV_CONFIG.smtp_host,
 	service:ENV_CONFIG.smtp_service,
@@ -9,7 +10,7 @@ const transporter = nodemailer.createTransport({
 	secure:Number(ENV_CONFIG.smtp_port) ===465,
 	auth:{
 		user:ENV_CONFIG.smtp_user,
-		pass:ENV_CONFIG.stmp_pass,
+		pass:ENV_CONFIG.smtp_pass,
 	},
 
 });

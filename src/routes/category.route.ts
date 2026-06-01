@@ -22,12 +22,17 @@ router.get("/", getAll);
 router.get("/:id", getById);
 
 //? create
-router.post("/",authenticate(Only_Admins), create);
+router.post(
+  "/",
+  upload.single("image"),
+  //  authenticate(Only_Admins),
+  create,
+);
 
 //? update
-router.put("/:id",authenticate(Only_Admins), update);
+router.put("/:id", authenticate(Only_Admins), update);
 
 //? delete
-router.delete("/:id",authenticate(Only_Admins), remove);
+router.delete("/:id", authenticate(Only_Admins), remove);
 
 export default router;
