@@ -12,6 +12,8 @@ const bcrypt_utils_1 = require("../utils/bcrypt.utils");
 const jwt_utils_1 = require("../utils/jwt.utils");
 const cloudinary_utils_1 = require("../utils/cloudinary.utils");
 const env_config_1 = __importDefault(require("../config/env.config"));
+const sendEmail_utils_1 = require("../utils/sendEmail.utils");
+const email_utils_1 = require("../utils/email.utils");
 const folder = "/profile_image";
 //! register
 exports.register = (0, catchAsync_utils_1.catchAsync)(async (req, res) => {
@@ -79,6 +81,15 @@ exports.login = (0, catchAsync_utils_1.catchAsync)(async (req, res) => {
         role: user.role,
     };
     const access_token = (0, jwt_utils_1.generateJwtToken)(payload);
+    (0, sendEmail_utils_1.sendEmail)({
+        to: user.email,
+        subject: `Welcome ${user.full_name}`,
+        html: (0, email_utils_1.generateLoginSuccessEmailHtml)(req, {
+            full_name: user.full_name,
+            _id: user._id,
+            email: user.email,
+        }),
+    });
     // * send access_token in cookie
     res.cookie("access_token", access_token, {
         httpOnly: env_config_1.default.node_env === "development" ? false : true,

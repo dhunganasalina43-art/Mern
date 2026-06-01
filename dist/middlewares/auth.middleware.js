@@ -38,6 +38,13 @@ const authenticate = (roles) => {
             if (roles && !roles.includes(decoded_data.role)) {
                 throw new appError_utils_1.default("Forbidden. Access denied", 403);
             }
+            //! add loggedin user to req object
+            req.user = {
+                _id: decoded_data._id,
+                email: decoded_data.email,
+                role: decoded_data.role,
+                full_name: decoded_data.full_name,
+            };
             next();
         }
         catch (error) {

@@ -1,26 +1,31 @@
 "use strict";
-// product.route.ts
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
 Object.defineProperty(exports, "__esModule", { value: true });
-const express_1 = __importDefault(require("express"));
+const express_1 = require("express");
 const product_controller_1 = require("../controllers/product.controller");
-const router = express_1.default.Router();
-//* get all products
-router.get("/", product_controller_1.getAllProducts);
-//* get featured products
+const multer_middleware_1 = require("../middlewares/multer.middleware");
+const router = (0, express_1.Router)();
+const upload = (0, multer_middleware_1.multerUploader)();
+//? get all
+router.get("/", product_controller_1.getAll);
+//? get by category
+router.get("/category/:id", product_controller_1.getByCategory);
+//? featured
 router.get("/featured", product_controller_1.getFeaturedProducts);
-//* get new arrivals
-router.get("/new-arrivals", product_controller_1.getNewArrivals);
-//* get products by category
-router.get("/category/:category", product_controller_1.getProductsByCategory);
-//* get product by id
-router.get("/:id", product_controller_1.getProductById);
-//* create product
-router.post("/", product_controller_1.createProduct);
-//* update product
-router.patch("/:id", product_controller_1.updateProduct);
-//* delete product
-router.delete("/:id", product_controller_1.deleteProduct);
+//? new arrivals
+router.get("/new-arrivals", product_controller_1.getNewProducts);
+//? get by id
+router.get("/:id", product_controller_1.getById);
+//? cretae
+router.post("/", upload.fields([
+    {
+        name: "cover_image",
+        maxCount: 1,
+    },
+    {
+        name: "images",
+        maxCount: 6,
+    },
+]), 
+// authenticate(Only_Admins),
+product_controller_1.create);
 exports.default = router;

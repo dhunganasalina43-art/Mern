@@ -13,6 +13,12 @@ const ENV_CONFIG = {
     cloudinary_cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
     cloudinary_api_key: process.env.CLOUDINARY_API_KEY,
     cloudinary_api_secret: process.env.CLOUDINARY_API_SECRET,
+    // ! email
+    smtp_host: process.env.SMTP_HOST,
+    smtp_service: process.env.SMTP_SERVICE,
+    smtp_port: process.env.SMTP_PORT,
+    smtp_user: process.env.SMTP_USER,
+    smtp_pass: process.env.SMTP_PASS,
     //  !cookie
     cookie_exp: process.env.COOKIE_EXPIRY,
 };

@@ -4,7 +4,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
-const category_controller_1 = require("../controllers/category.controller");
+const brand_controller_1 = require("../controllers/brand.controller");
 const multer_middleware_1 = require("../middlewares/multer.middleware");
 const auth_middleware_1 = require("../middlewares/auth.middleware");
 const enum_types_1 = require("../types/enum.types");
@@ -12,15 +12,15 @@ const enum_types_1 = require("../types/enum.types");
 const upload = (0, multer_middleware_1.multerUploader)();
 const router = express_1.default.Router();
 //? get all
-router.get("/", category_controller_1.getAll);
+router.get("/", brand_controller_1.getAll);
 //? get by id
-router.get("/:id", category_controller_1.getById);
+router.get("/:id", brand_controller_1.getById);
 //? create
-router.post("/", upload.single("image"), 
+router.post("/", upload.single("logo"), 
 //  authenticate(Only_Admins),
-category_controller_1.create);
+brand_controller_1.create);
 //? update
-router.put("/:id", (0, auth_middleware_1.authenticate)(enum_types_1.Only_Admins), category_controller_1.update);
+router.put("/:id", (0, auth_middleware_1.authenticate)(enum_types_1.Only_Admins), brand_controller_1.update);
 //? delete
-router.delete("/:id", (0, auth_middleware_1.authenticate)(enum_types_1.Only_Admins), category_controller_1.remove);
+router.delete("/:id", (0, auth_middleware_1.authenticate)(enum_types_1.Only_Admins), brand_controller_1.remove);
 exports.default = router;
